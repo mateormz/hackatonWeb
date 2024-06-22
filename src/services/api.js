@@ -1,6 +1,13 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const BACKEND_URL = 'https://cepnq6rjbk.execute-api.us-east-1.amazonaws.com';
+
+export const getRoleBasedOnToken = () => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    return decodedToken.role;
+  }
 
 export const fetchLogin = async(username, password) => {
 

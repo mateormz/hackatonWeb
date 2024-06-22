@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchLogin } from '../services/api'
+import { getRoleBasedOnToken } from '../services/api';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +16,15 @@ const Login = () => {
       const response = await fetchLogin(username, password);
       localStorage.setItem('token', response.token);
       console.log(response.token);
-      navigate('/profile');
+
+      const role = getRoleBasedOnToken();
+
+      if (role === 'admin') {
+        navigate('/paginaadmin');
+      } else if (role === 'client') {
+        navigate('/home');
+      }
+
     } catch (error) {
       console.log(error);
     }
