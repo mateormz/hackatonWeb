@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { FaUserCircle } from "react-icons/fa";
 import { getPassenger } from '../services/api';
 
 const Profile = () => {

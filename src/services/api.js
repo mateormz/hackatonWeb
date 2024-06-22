@@ -1,17 +1,17 @@
 import axios from "axios";
 
-const BACKEND_URL = 'http://127.0.0.1:8080';
+const BACKEND_URL = 'https://cepnq6rjbk.execute-api.us-east-1.amazonaws.com';
 
-export const fetchLogin = async(email, password) => {
+export const fetchLogin = async(username, password) => {
 
-    const response = await axios.post(`${BACKEND_URL}/auth/login`, {email, password});
+    const response = await axios.post(`${BACKEND_URL}/auth/login`, {username, password});
 
     return response.data;
 }
 
-export const fetchRegister = async(firstName, lastName, email, password, isDriver, phone) => {
+export const fetchRegister = async(username, password, role) => {
 
-    const response = await axios.post(`${BACKEND_URL}/auth/register`, {firstName, lastName, email, password, isDriver, phone});
+    const response = await axios.post(`${BACKEND_URL}/auth/register`, {username, password, role});
     return response.data;
 }
 
