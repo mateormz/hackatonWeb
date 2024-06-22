@@ -39,3 +39,19 @@ export const fetchRides = async(page) => {
     
     return response;
 }
+
+export const getItems = async (limit, lastKey) => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/items`, {
+        params: {
+          limit: limit,
+          lastKey: lastKey
+        }
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener los items:', error.response);
+      return null;
+    }
+  };

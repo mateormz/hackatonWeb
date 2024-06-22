@@ -1,8 +1,7 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchLogin } from '../services/api'
-import { getRoleBasedOnToken } from '../services/api';
+import { fetchLogin, getRoleBasedOnToken } from '../services/api';
+import LoginForm from '../components/LoginForm';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +19,7 @@ const Login = () => {
       const role = getRoleBasedOnToken();
 
       if (role === 'admin') {
-        navigate('/paginaadmin');
+        navigate('/scrollpage');
       } else if (role === 'client') {
         navigate('/home');
       }
@@ -31,20 +30,14 @@ const Login = () => {
   }
 
   return (
-    <>
-    <h1>Login</h1>
-
-    <form onSubmit={ handleSubmit }>
-      <label>Username</label>
-      <input onChange={(e) => {setUsername(e.target.value)}}/>
-
-      <label htmlFor="password">Password</label>
-      <input onChange={(e) => {setPassword(e.target.value)}} type="password" id="password" />
-
-      <button>Submit</button>
-    </form>
-    </>
-  )
+    <LoginForm
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      handleSubmit={handleSubmit}
+    />
+  );
 }
 
-export default Login
+export default Login;

@@ -1,64 +1,40 @@
-import React from 'react';
-import { fetchRegister } from '../services/api';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchRegister } from '../services/api';
+import RegisterForm from '../components/RegisterForm';
 
 const Register = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleRegister = async(e) => {
-        e.preventDefault();
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-        const response = await fetchRegister(username, password, role);
-        localStorage.setItem('token', response.token);
-        navigate('/login')
+    try {
+      const response = await fetchRegister(username, password, role);
+      localStorage.setItem('token', response.token);
+      navigate('/login');
 
-        console.log(response.token);
+      console.log(response.token);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    return (
-        <>
-            <h1>Register</h1>
-
-            <form onSubmit={handleRegister}>
-                <label>Username</label>
-                <input onChange={(e) => setUsername(e.target.value)} />
-
-                <label>Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} type='password'/>
-              
-                <label>Are you a Admin?</label>
-                <div>
-                    <input  
-                        type="radio"
-                        id="admin"
-                        name="isAdmin"
-                        value="admin"
-                        checked={role === 'admin'}
-                        onChange={() => setRole('admin')}
-                    />
-                    <label htmlFor="admin">Yes</label>
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="notAdmin"
-                        name="isAdmin"
-                        value="client"
-                        checked={role === 'client'}
-                        onChange={() => setRole('client')}
-                    />
-                    <label htmlFor="notAdmin">No</label>
-                </div>
-
-                <button type="submit">Submit</button>
-            </form>
-        </>
-    );
+  return (
+    <RegisterForm
+      username={username}
+      setUsername={setUsername}
+      password={password}
+      setPassword={setPassword}
+      role={role}
+      setRole={setRole}
+      handleRegister={handleRegister}
+    />
+  );
 }
 
 export default Register;
