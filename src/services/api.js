@@ -95,7 +95,5 @@ export const getUserCart = async(userId) => {
         }
     });
     return response.data;
-}
 
-    return response;
 }
