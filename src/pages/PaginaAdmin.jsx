@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductForm from '../components/ProductForm';
-import ItemDetails from '../components/ItemDetails';
 
 const PaginaAdmin = () => {
     const [itemId, setItemId] = useState('');
+    const navigate = useNavigate();
+
+    const handleViewItem = () => {
+        navigate('/product');
+    };
 
     return (
         <div>
@@ -17,7 +22,9 @@ const PaginaAdmin = () => {
                     onChange={(e) => setItemId(e.target.value)} 
                     placeholder="Enter Item ID" 
                 />
-                {itemId && <ItemDetails id={itemId} />}
+                <button onClick={handleViewItem} disabled={!itemId}>
+                    View Item
+                </button>
             </div>
         </div>
     );

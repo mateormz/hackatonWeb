@@ -8,6 +8,7 @@ import Home from  './pages/Home'
 import PaginaAdmin from './pages/PaginaAdmin'
 import Carrito from './pages/Carrito'
 import ScrollPage from './pages/ScrollPage'
+import ProductPage from './components/ProductPage'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path='/home' element={<Home></Home>}/>
         <Route path= '/carrito' element = {<Carrito></Carrito>}/>
         <Route path= '/scrollpage' element = {<ScrollPage></ScrollPage>}/>
+        <Route path="/product" component={<ProductPage></ProductPage>} />
       </Routes>
     </Router>
     </>
