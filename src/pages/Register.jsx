@@ -1,63 +1,79 @@
-import React from 'react';
-import { fetchRegister } from '../services/api';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchRegister } from '../services/api';
+import '../assets/styles/Register.css'; // Asegúrate de crear un archivo CSS para estilizar el componente
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [role, setRole] = useState('client');
 
     const navigate = useNavigate();
 
-    const handleRegister = async(e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
-        const response = await fetchRegister(username, password, role);
-        localStorage.setItem('token', response.token);
-        navigate('/login')
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
 
-        console.log(response.token);
+        try {
+            const response = await fetchRegister(username, password, role);
+            if (response.token) {
+                localStorage.setItem('token', response.token);
+                navigate('/login');
+            } else {
+                console.error('Failed to register:', response.message);
+                alert('Registration failed: ' + response.message);
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+            alert('Error during registration. Please try again.');
+        }
     }
 
     return (
-        <>
-            <h1>Register</h1>
+        <div className="register-container">
+            <h1>Create account</h1>
+            <form onSubmit={handleRegister} className="register-form">
+                <label htmlFor="username">Your name</label>
+                <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
 
-            <form onSubmit={handleRegister}>
-                <label>Username</label>
-                <input onChange={(e) => setUsername(e.target.value)} />
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
 
-                <label>Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} type='password'/>
-              
-                <label>Are you a Admin?</label>
-                <div>
-                    <input  
-                        type="radio"
-                        id="admin"
-                        name="isAdmin"
-                        value="admin"
-                        checked={role === 'admin'}
-                        onChange={() => setRole('admin')}
-                    />
-                    <label htmlFor="admin">Yes</label>
-                </div>
-                <div>
-                    <input
-                        type="radio"
-                        id="notAdmin"
-                        name="isAdmin"
-                        value="client"
-                        checked={role === 'client'}
-                        onChange={() => setRole('client')}
-                    />
-                    <label htmlFor="notAdmin">No</label>
-                </div>
+                <label htmlFor="confirmPassword">Re-enter password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
 
-                <button type="submit">Submit</button>
+                <button type="submit">Continue</button>
             </form>
-        </>
+            <div className="conditions">
+                <p>By creating an account, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+            </div>
+            <div className="signin-link">
+                <p>Already have an account? <a href="/login">Sign in</a></p>
+            </div>
+        </div>
     );
 }
 
