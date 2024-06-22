@@ -16,6 +16,7 @@ const Login = () => {
       const response = await fetchLogin(username, password);
       localStorage.setItem('token', response.token);
       localStorage.setItem('username',username);
+      console.log(username)
       console.log(response.token);
 
       const role = getRoleBasedOnToken();
