@@ -4,18 +4,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isDriver, setIsDriver] = useState(false);
-    const [phone, setPhone] = useState('');
+    const [role, setRole] = useState('');
+
     const navigate = useNavigate();
 
     const handleRegister = async(e) => {
         e.preventDefault();
 
-        const response = await fetchRegister(firstName, lastName, email, password, isDriver, phone);
+        const response = await fetchRegister(username, password, role);
         localStorage.setItem('token', response.token);
         navigate('/login')
 
@@ -27,44 +25,35 @@ const Register = () => {
             <h1>Register</h1>
 
             <form onSubmit={handleRegister}>
-                <label>First Name</label>
-                <input onChange={(e) => setFirstName(e.target.value)} />
-
-                <label>Last Name</label>
-                <input onChange={(e) => setLastName(e.target.value)} />
-
-                <label>Email</label>
-                <input onChange={(e) => setEmail(e.target.value)} />
+                <label>Username</label>
+                <input onChange={(e) => setUsername(e.target.value)} />
 
                 <label>Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} type='password' />
+                <input onChange={(e) => setPassword(e.target.value)} type='password'/>
               
-                <label>Are you a Driver?</label>
+                <label>Are you a Admin?</label>
                 <div>
-                    <input
+                    <input  
                         type="radio"
-                        id="driver"
-                        name="isDriver"
-                        value="true"
-                        checked={isDriver === true}
-                        onChange={() => setIsDriver(true)}
+                        id="admin"
+                        name="isAdmin"
+                        value="admin"
+                        checked={role === 'admin'}
+                        onChange={() => setRole('admin')}
                     />
-                    <label htmlFor="driver">Yes</label>
+                    <label htmlFor="admin">Yes</label>
                 </div>
                 <div>
                     <input
                         type="radio"
-                        id="notDriver"
-                        name="isDriver"
-                        value="false"
-                        checked={isDriver === false}
-                        onChange={() => setIsDriver(false)}
+                        id="notAdmin"
+                        name="isAdmin"
+                        value="client"
+                        checked={role === 'client'}
+                        onChange={() => setRole('client')}
                     />
-                    <label htmlFor="notDriver">No</label>
+                    <label htmlFor="notAdmin">No</label>
                 </div>
-
-                <label>Phone Number</label>
-                <input onChange={(e) => setPhone(e.target.value)} />
 
                 <button type="submit">Submit</button>
             </form>
